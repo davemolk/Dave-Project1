@@ -46,9 +46,9 @@ function shipMove(e) {
 
 // ship blasts
 
-// firing at asteroids
+// firing at wraiths
 
-// asteroid setup
+// wraiths setup
 
 class Wraith {
   constructor(x, y, width, height) {
@@ -56,19 +56,35 @@ class Wraith {
     this.y = y;
     this.width = width;
     this.height = height;
+    this.speed = 1.5;
     this.alive = true;
   }
 
   render() {
-    ctx.drawImage(spaceWraith, this.x, this.y, this.width, this.height);
+    ctx.drawImage(
+      spaceWraith,
+      this.x,
+      (this.y += this.speed),
+      this.width,
+      this.height
+    );
   }
 }
 
-// swap out color for an image at some point
+// wraith array
+let arrWraith = [];
 
-// asteroid array
-
-// asteroid movement
+function moreWraiths() {
+  for (let i = 0; i < 9; i++) {
+    for (let j = 0; j < 4; j++) {
+      wraith = new Wraith(i * 35 + 33, j * 35 + 15, 30, 30);
+      arrWraith.push(wraith);
+    }
+  }
+}
+// wraith movement
+moreWraiths();
+console.log(arrWraith);
 
 // game loop
 function gameLoop() {
@@ -79,7 +95,7 @@ function gameLoop() {
   wraith.render();
 }
 
-// hit detection (hitting asteroids)
+// hit detection (hitting wraithss)
 
 // event listeners
 document.addEventListener("DOMContentLoaded", function () {
@@ -88,5 +104,5 @@ document.addEventListener("DOMContentLoaded", function () {
   document.addEventListener("keydown", shipMove); // feels like I should move this out
   const runGame = setInterval(gameLoop, 60); // what does this do?
 });
-
+// should this be in a
 // restart
