@@ -1,7 +1,7 @@
 const movementDisplay = document.getElementById("movement");
 const game = document.getElementById("game");
 const shipImage = document.getElementById("shipImage");
-let player; // prob should be const
+let hero; // define within so probably delete here?
 let asteroids; // define within so probably delete here?
 
 // canvas setup
@@ -31,12 +31,12 @@ class Ship {
 }
 
 // put onscreen
-// let player = new Ship(500, 500, 30, 30);
+let player = new Ship(500, 500, 30, 30);
 // ship movement
 function shipMove(e) {
-  if (e.keyCode === 38 && player.y > 0) {
+  if (e.keyCode === 38) {
     player.y -= 10;
-  } else if (e.keyCode === 40 && player.y < 370) {
+  } else if (e.keyCode === 40) {
     player.y += 10;
   }
   // try this as e.key, documentation says others deprecated https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key
@@ -66,21 +66,8 @@ function Asteroid(x, y, color, width, height) {
 
 // asteroid movement
 
-// game loop
-function gameLoop() {
-  clearCanvas();
-  movementDisplay.textContent = `X: ${player.x} 
-  Y: ${player.y}`;
-  player.render();
-}
-
 // hit detection (hitting asteroids)
 
-// event listeners
-document.addEventListener("DOMContentLoaded", function () {
-  player = new Ship(10, 200, 30, 30);
-  document.addEventListener("keydown", shipMove);
-  const runGame = setInterval(gameLoop, 60);
-});
+// lots of functions
 
 // restart
