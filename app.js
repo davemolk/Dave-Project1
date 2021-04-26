@@ -1,8 +1,9 @@
 const movementDisplay = document.getElementById("movement");
 const game = document.getElementById("game");
 const shipImage = document.getElementById("shipImage");
-let player; // prob should be const
-let asteroids; // define within so probably delete here?
+const spaceWraith = document.getElementById("spaceWraith");
+let player;
+let wraith;
 
 // canvas setup
 const ctx = game.getContext("2d");
@@ -32,6 +33,7 @@ class Ship {
 
 // put onscreen
 // let player = new Ship(500, 500, 30, 30);
+
 // ship movement
 function shipMove(e) {
   if (e.keyCode === 38 && player.y > 0) {
@@ -48,18 +50,20 @@ function shipMove(e) {
 
 // asteroid setup
 
-function Asteroid(x, y, color, width, height) {
-  this.x = x;
-  this.y = y;
-  this.color = color;
-  this.width = width;
-  this.height = height;
-  this.alive = true;
-  this.render = function () {
-    ctx.fillStyle = this.color;
-    ctx.fillRect(this.x, this.y, this.width, this.height);
-  };
+class Wraith {
+  constructor(x, y, width, height) {
+    this.x = x;
+    this.y = y;
+    this.width = width;
+    this.height = height;
+    this.alive = true;
+  }
+
+  render() {
+    ctx.drawImage(spaceWraith, this.x, this.y, this.width, this.height);
+  }
 }
+
 // swap out color for an image at some point
 
 // asteroid array
@@ -72,6 +76,7 @@ function gameLoop() {
   movementDisplay.textContent = `X: ${player.x} 
   Y: ${player.y}`;
   player.render();
+  wraith.render();
 }
 
 // hit detection (hitting asteroids)
@@ -79,8 +84,9 @@ function gameLoop() {
 // event listeners
 document.addEventListener("DOMContentLoaded", function () {
   player = new Ship(10, 200, 30, 30);
-  document.addEventListener("keydown", shipMove);
-  const runGame = setInterval(gameLoop, 60);
+  wraith = new Wraith(700, 100, 30, 30);
+  document.addEventListener("keydown", shipMove); // feels like I should move this out
+  const runGame = setInterval(gameLoop, 60); // what does this do?
 });
 
 // restart
