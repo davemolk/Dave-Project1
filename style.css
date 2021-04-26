@@ -41,6 +41,7 @@ canvas {
 }
 
 #top-left,
+#top-center,
 #top-right,
 #btm-left,
 #btm-right,
@@ -81,5 +82,9 @@ main {
 }
 
 #spaceWraith {
+  display: none;
+}
+
+#blasts {
   display: none;
 }

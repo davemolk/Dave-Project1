@@ -2,6 +2,7 @@ const movementDisplay = document.getElementById("movement");
 const game = document.getElementById("game");
 const shipImage = document.getElementById("shipImage");
 const spaceWraith = document.getElementById("spaceWraith");
+const blasts = document.getElementById("blasts");
 let player;
 let wraith;
 
@@ -45,6 +46,36 @@ function shipMove(e) {
 }
 
 // ship blasts
+class Blasts {
+  constructor(x, y, width, height) {
+    this.x = x;
+    this.y = y;
+    this.width = width;
+    this.height = height;
+    this.speed = 1.5;
+  }
+
+  render() {
+    ctx.drawImage(
+      blasts,
+      (this.x += this.speed),
+      this.y,
+      this.width,
+      this.height
+    );
+  }
+}
+
+function shipBlasts(e) {
+  if (e.keyCode === 32) {
+    console.log("pew");
+    blasts.textContent = "pewwwwww";
+    setTimeout(function () {
+      blasts.textContent = "";
+    }, 300);
+    // fire!
+  }
+}
 
 // firing at wraiths
 
@@ -77,7 +108,7 @@ let arrWraith = [];
 function moreWraiths() {
   for (let i = 0; i < 9; i++) {
     for (let j = 0; j < 4; j++) {
-      wraith = new Wraith(i * 35 + 33, j * 35 + 15, 30, 30);
+      wraith = new Wraith(j * 50 + 100, i * 50 + 100, 30, 30);
       arrWraith.push(wraith);
     }
   }
@@ -100,9 +131,10 @@ function gameLoop() {
 // event listeners
 document.addEventListener("DOMContentLoaded", function () {
   player = new Ship(10, 200, 30, 30);
-  wraith = new Wraith(700, 100, 30, 30);
+  wraith = new Wraith(500, 100, 30, 30);
   document.addEventListener("keydown", shipMove); // feels like I should move this out
+  document.addEventListener("keydown", shipBlasts);
   const runGame = setInterval(gameLoop, 60); // what does this do?
 });
-// should this be in a
+
 // restart
