@@ -35,6 +35,7 @@ Code snippets go here
 6. change ship size once you reach a certain score?
 7. obstacles shoot back?
 8. animate explosions?
+9. background for canvas?
 
 # PROCESS WORK
 
