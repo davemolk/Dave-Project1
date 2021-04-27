@@ -116,15 +116,31 @@ moreWraiths(); // why am i calling this here and why doesn't it work in the game
 // wraith movement
 function wraithMovement() {
   arrWraith.forEach((wraith) => {
+    // if (arrWraith.length < 15) wraith.speed = 4;
     if (wraith.y >= 340) {
-      arrWraith.forEach((wraith) => (wraith.speed = -1.5));
+      arrWraith.forEach((wraith) =>
+        arrWraith.length <= 10
+          ? (wraith.speed = -8)
+          : arrWraith.length <= 15
+          ? (wraith.speed = -4)
+          : (wraith.speed = -1.5)
+      );
     } else if (wraith.y <= 10) {
-      arrWraith.forEach((wraith) => (wraith.speed = 1.5));
+      arrWraith.forEach((wraith) =>
+        arrWraith.length <= 10
+          ? (wraith.speed = 8)
+          : arrWraith.length <= 15
+          ? (wraith.speed = 4)
+          : (wraith.speed = 1.5)
+      );
     }
   });
 }
 // have them start moving faster after 5 are killed
 // have them start moving towards player after 10 are killed
+// how do i set this to happen as soon as the array changes instead of now, where it depends on location?
+// looks like i cant' have {} in arrow functions?!?
+// how do i avoid hardcoding this?
 
 // wraith ray NOT WORKING
 class Ray {
@@ -169,12 +185,11 @@ function hitWraith() {
       ) {
         arrWraith.splice(i, 1);
         arrBlasts.splice(j, 1);
+        // this is where i'd increment score if i want to do that
       }
     }
   }
 }
-
-// (arrBlasts[j].x > arrWraith[i].x && arrBlasts[j].y < arrWraith[i].y)
 
 // player loses
 
