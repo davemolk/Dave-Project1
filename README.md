@@ -36,6 +36,7 @@ Code snippets go here
 7. obstacles shoot back?
 8. animate explosions?
 9. background for canvas?
+10. turbo boost for ship (change the amount of area covered by keystroke, need to toggle on and off)
 
 # PROCESS WORK
 
@@ -46,3 +47,7 @@ Initial Wireframes go here ( images )
 ## Scratch Work:
 
 Scratch Work goes here
+
+## Acknowledgements
+
+Thanks to Open Game Art for the ship image (https://opengameart.org/content/space-ship-construction-kit) and the dungeon images (https://opengameart.org/content/dungeon-crawl-32x32-tiles)

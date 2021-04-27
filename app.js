@@ -19,7 +19,6 @@ function clearCanvas() {
 }
 
 // ship setup
-
 class Ship {
   constructor(x, y, width, height) {
     this.x = x;
@@ -77,7 +76,6 @@ function shipBlasts(e) {
 }
 
 // wraiths setup
-
 class Wraith {
   constructor(x, y, width, height) {
     this.x = x;
@@ -103,25 +101,30 @@ class Wraith {
 let arrWraith = [];
 
 function moreWraiths() {
-  for (let i = 0; i < 5; i++) {
-    for (let j = 0; j < 4; j++) {
-      wraith = new Wraith(j * 70 + 500, i * 70, 40, 40);
+  for (let y = 0; y < 5; y++) {
+    for (let x = 0; x < 4; x++) {
+      wraith = new Wraith(x * 70 + 500, y * 70, 40, 40);
       arrWraith.push(wraith);
     }
   }
 }
+
+moreWraiths(); // why am i calling this here and why doesn't it work in the game loop?
+
 // wraith movement
-moreWraiths();
-function changeDirection() {
+function wraithMovement() {
   arrWraith.forEach((wraith) => {
     if (wraith.y >= 340) {
-      arrWraith.forEach((n) => (n.speed = -1.5));
+      arrWraith.forEach((wraith) => (wraith.speed = -1.5));
     } else if (wraith.y <= 10) {
-      arrWraith.forEach((i) => (i.speed = 1.5));
+      arrWraith.forEach((wraith) => (wraith.speed = 1.5));
     }
   });
 }
-// wraith ray
+// have them start moving faster after 5 are killed
+// have them start moving towards player after 10 are killed
+
+// wraith ray NOT WORKING
 class Ray {
   constructor(x, y, width, height) {
     this.x = x;
@@ -153,6 +156,18 @@ function wraithRay(e) {
 }
 
 // hit detection (hitting wraiths)
+function hitWraith() {
+  for (let i = 0; i < arrWraith.length; i++) {
+    for (let j = 0; j < arrBlasts.length; j++) {
+      if (arrBlasts[j].x < arrWraith[i].x && arrBlasts[j].y < arrWraith[i].y) {
+        arrWraith.splice(i, 1);
+        arrBlasts.splice(j, 1);
+      }
+    }
+  }
+}
+
+// player loses
 
 // game loop
 function gameLoop() {
@@ -160,9 +175,9 @@ function gameLoop() {
   movementDisplay.textContent = `X: ${player.x} 
   Y: ${player.y}`;
   player.render();
-  // wraith.render();
   arrWraith.forEach((wraith) => wraith.render());
-  changeDirection();
+  wraithMovement();
+  hitWraith();
   arrBlasts.forEach((pew) => pew.render());
   arrRay.forEach((rayz) => rayz.render()); //  NOT WORKING
 }
