@@ -53,7 +53,7 @@ class Blasts {
     this.y = y;
     this.width = width;
     this.height = height;
-    this.speed = 1.5;
+    this.speed = 4;
   }
 
   render() {
@@ -107,9 +107,9 @@ class Wraith {
 let arrWraith = [];
 
 function moreWraiths() {
-  for (let i = 0; i < 9; i++) {
+  for (let i = 0; i < 5; i++) {
     for (let j = 0; j < 4; j++) {
-      wraith = new Wraith(j * 50 + 100, i * 50 + 100, 30, 30);
+      wraith = new Wraith(j * 70 + 500, i * 70, 40, 40);
       arrWraith.push(wraith);
     }
   }
@@ -124,17 +124,18 @@ function gameLoop() {
   movementDisplay.textContent = `X: ${player.x} 
   Y: ${player.y}`;
   player.render();
-  wraith.render();
+  // wraith.render();
+  arrWraith.forEach((wraith) => wraith.render());
   arrBlasts.forEach((pew) => pew.render());
 }
 
-// hit detection (hitting wraithss)
+// hit detection (hitting wraiths)
 
 // event listeners
 document.addEventListener("DOMContentLoaded", function () {
   player = new Ship(10, 200, 30, 30);
-  wraith = new Wraith(500, 100, 30, 30);
-  document.addEventListener("keydown", shipMove); // feels like I should move this out
+  wraith = new Wraith(500, 100, 50, 50);
+  document.addEventListener("keydown", shipMove);
   document.addEventListener("keydown", shipBlasts);
   const runGame = setInterval(gameLoop, 60); // what does this do?
 });
