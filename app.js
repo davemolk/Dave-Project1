@@ -11,6 +11,10 @@ let wraith;
 let pew;
 let rayz;
 let points = 0;
+const row = 4;
+const col = 5;
+let arrWraith = [];
+let arrRay = [];
 
 // canvas setup
 const ctx = game.getContext("2d");
@@ -22,6 +26,7 @@ function clearCanvas() {
   ctx.clearRect(0, 0, game.width, game.height);
 }
 
+// *********** SHIP ************
 // ship setup
 class Ship {
   constructor(x, y, width, height) {
@@ -65,20 +70,19 @@ class Blasts {
 let arrBlasts = [];
 function shipBlasts(e) {
   if (e.keyCode === 32) {
-    console.log("pew");
     blasts.textContent = "pewwwwww";
     // fire!
     pew = new Blasts(player.x + 30, player.y, 25, 25);
-    console.log(pew);
     arrBlasts.push(pew);
 
     // wait to reload
     setTimeout(function () {
       blasts.textContent = "";
-    }, 300);
+    }, 500);
   }
 }
 
+// *********** WRAITHS ************
 // wraiths setup
 class Wraith {
   constructor(x, y, width, height) {
@@ -99,14 +103,19 @@ class Wraith {
       this.height
     );
   }
+
+  fire() {
+    if (this.alive) {
+      arrRay.push(new Ray(this.x - 30, this.y, 25, 25));
+    }
+  }
 }
 
 // wraith array
-let arrWraith = [];
 
 function moreWraiths() {
-  for (let y = 0; y < 5; y++) {
-    for (let x = 0; x < 4; x++) {
+  for (let y = 0; y < col; y++) {
+    for (let x = 0; x < row; x++) {
       wraith = new Wraith(x * 70 + 500, y * 70, 40, 40);
       arrWraith.push(wraith);
     }
@@ -118,26 +127,53 @@ moreWraiths(); // why am i calling this here and why doesn't it work in the game
 // wraith movement
 function wraithMovement() {
   arrWraith.forEach((wraith) => {
-    // if (arrWraith.length < 15) wraith.speed = 4;
     if (wraith.y >= 340) {
-      arrWraith.forEach((wraith) =>
-        arrWraith.length <= 10
-          ? (wraith.speed = -8)
-          : arrWraith.length <= 15
-          ? (wraith.speed = -4)
-          : (wraith.speed = -1.5)
-      );
+      if (arrWraith.length <= 10) {
+        arrWraith.forEach((wraith) => {
+          wraith.speed = -8;
+          wraith.y += 1;
+          wraith.x -= 5;
+        });
+      } else if (arrWraith.length <= 15) {
+        arrWraith.forEach((wraith) => (wraith.speed = -4));
+      } else arrWraith.forEach((wraith) => (wraith.speed = -1.5));
     } else if (wraith.y <= 10) {
-      arrWraith.forEach((wraith) =>
-        arrWraith.length <= 10
-          ? (wraith.speed = 8)
-          : arrWraith.length <= 15
-          ? (wraith.speed = 4)
-          : (wraith.speed = 1.5)
-      );
+      if (arrWraith.length <= 10) {
+        arrWraith.forEach((wraith) => {
+          wraith.speed = 8;
+          wraith.y += 1;
+          wraith.x -= 5;
+        });
+      } else if (arrWraith.length <= 15) {
+        arrWraith.forEach((wraith) => (wraith.speed = 4));
+      } else arrWraith.forEach((wraith) => (wraith.speed = 1.5));
     }
   });
 }
+
+// function wraithMovement() {
+//   arrWraith.forEach((wraith) => {
+//     // if (arrWraith.length < 15) wraith.speed = 4;
+//     if (wraith.y >= 340) {
+//       arrWraith.forEach((wraith) =>
+//         arrWraith.length <= 10
+//           ? (wraith.speed = -8)
+//           : arrWraith.length <= 15
+//           ? (wraith.speed = -4)
+//           : (wraith.speed = -1.5)
+//       );
+//     } else if (wraith.y <= 10) {
+//       arrWraith.forEach((wraith) =>
+//         arrWraith.length <= 10
+//           ? (wraith.speed = 8)
+//           : arrWraith.length <= 15
+//           ? (wraith.speed = 4)
+//           : (wraith.speed = 1.5)
+//       );
+//     }
+//   });
+// }
+
 // have them start moving faster after 5 are killed
 // have them start moving towards player after 10 are killed
 // how do i set this to happen as soon as the array changes instead of now, where it depends on location?
@@ -151,7 +187,7 @@ class Ray {
     this.y = y;
     this.width = width;
     this.height = height;
-    this.speed = 4;
+    this.speed = 15;
   }
 
   render() {
@@ -160,18 +196,33 @@ class Ray {
 }
 
 // **** TO DO ****
-let arrRay = [];
-function wraithRay(e) {
-  // need some randomness here
-  if (e.keyCode === 32) {
-    // fire!
-    rayz = new Ray(player.x - 30, player.y, 25, 25);
-    arrRay.push(rayz);
+// let arrRay = [];
+// function wraithRay(e) {
+//   if (e.keyCode === 76) {
+//     rayz = new Ray(wraith.x - 30, wraith.y, 25, 25);
+//     arrRay.push(rayz);
+//   }
+//
+//   // wait to reload
+//   setTimeout(function () {
+//
+//   }, 500);
+// }
+
+function wraithRay() {
+  for (let y = 0; y < col; y++) {
+    for (let x = 0; x < row; x++) {
+      let randomY = Math.floor(Math.random() * col);
+      let randomX = Math.floor(Math.random() * row);
+      // if (wraith[randomY][randomX].alive) {
+      //   wraith[randomY][randomX].fire();
+      // }
+    }
 
     // wait to reload
-    setTimeout(function () {
-      blasts.textContent = "";
-    }, 300);
+    // setTimeout(function () {
+    //   );
+    // }, 500);
   }
 }
 
@@ -204,6 +255,7 @@ function gameLoop() {
   player.render();
   arrWraith.forEach((wraith) => wraith.render());
   wraithMovement();
+  wraithRay();
   arrBlasts.forEach((pew) => pew.render());
   arrRay.forEach((rayz) => rayz.render()); //  NOT WORKING
   hitWraith();
@@ -215,6 +267,7 @@ document.addEventListener("DOMContentLoaded", function () {
   wraith = new Wraith(500, 100, 50, 50);
   document.addEventListener("keydown", shipMove);
   document.addEventListener("keydown", shipBlasts);
+  // document.addEventListener("keydown", wraithRay);
   const runGame = setInterval(gameLoop, 60); // what does this do?
 });
 
