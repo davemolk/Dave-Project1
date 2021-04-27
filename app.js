@@ -5,10 +5,12 @@ const spaceWraith = document.getElementById("spaceWraith");
 const zap = document.getElementById("zap");
 const ray = document.getElementById("ray");
 const blasts = document.getElementById("blasts");
+const score = document.getElementById("score");
 let player;
 let wraith;
 let pew;
 let rayz;
+let points = 0;
 
 // canvas setup
 const ctx = game.getContext("2d");
@@ -185,7 +187,8 @@ function hitWraith() {
       ) {
         arrWraith.splice(i, 1);
         arrBlasts.splice(j, 1);
-        // this is where i'd increment score if i want to do that
+        points += 50;
+        score.textContent = points;
       }
     }
   }
