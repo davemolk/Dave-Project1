@@ -2,6 +2,7 @@ const movementDisplay = document.getElementById("movement");
 const game = document.getElementById("game");
 const shipImage = document.getElementById("shipImage");
 const spaceWraith = document.getElementById("spaceWraith");
+const zap = document.getElementById("zap");
 const blasts = document.getElementById("blasts");
 let player;
 let wraith;
@@ -56,24 +57,24 @@ class Blasts {
   }
 
   render() {
-    ctx.drawImage(
-      blasts,
-      (this.x += this.speed),
-      this.y,
-      this.width,
-      this.height
-    );
+    ctx.drawImage(zap, (this.x += this.speed), this.y, this.width, this.height);
   }
 }
 
+const arrBlasts = [];
 function shipBlasts(e) {
   if (e.keyCode === 32) {
     console.log("pew");
     blasts.textContent = "pewwwwww";
+    // fire!
+    const pew = new Blasts(player.x + 30, player.y, 25, 25);
+    console.log(pew);
+    arrBlasts.push(pew);
+
+    // wait to reload
     setTimeout(function () {
       blasts.textContent = "";
     }, 300);
-    // fire!
   }
 }
 
@@ -124,6 +125,7 @@ function gameLoop() {
   Y: ${player.y}`;
   player.render();
   wraith.render();
+  arrBlasts.forEach((pew) => pew.render());
 }
 
 // hit detection (hitting wraithss)

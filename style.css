@@ -85,6 +85,10 @@ main {
   display: none;
 }
 
-#blasts {
+#zap {
   display: none;
+}
+
+#blasts {
+  color: rgb(39, 159, 180);
 }
