@@ -89,6 +89,10 @@ main {
   display: none;
 }
 
+#ray {
+  display: none;
+}
+
 #blasts {
   color: rgb(39, 159, 180);
 }

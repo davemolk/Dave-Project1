@@ -3,6 +3,7 @@ const game = document.getElementById("game");
 const shipImage = document.getElementById("shipImage");
 const spaceWraith = document.getElementById("spaceWraith");
 const zap = document.getElementById("zap");
+const ray = document.getElementById("ray");
 const blasts = document.getElementById("blasts");
 let player;
 let wraith;
@@ -33,9 +34,6 @@ class Ship {
   }
 }
 
-// put onscreen
-// let player = new Ship(500, 500, 30, 30);
-
 // ship movement
 function shipMove(e) {
   if (e.keyCode === 38 && player.y > 0) {
@@ -61,7 +59,7 @@ class Blasts {
   }
 }
 
-const arrBlasts = [];
+let arrBlasts = [];
 function shipBlasts(e) {
   if (e.keyCode === 32) {
     console.log("pew");
@@ -78,8 +76,6 @@ function shipBlasts(e) {
   }
 }
 
-// firing at wraiths
-
 // wraiths setup
 
 class Wraith {
@@ -88,7 +84,7 @@ class Wraith {
     this.y = y;
     this.width = width;
     this.height = height;
-    this.speed = 1.5;
+    this.speed = 1.5; // update as wraiths get destroyed?
     this.alive = true;
   }
 
@@ -116,7 +112,47 @@ function moreWraiths() {
 }
 // wraith movement
 moreWraiths();
-console.log(arrWraith);
+function changeDirection() {
+  arrWraith.forEach((wraith) => {
+    if (wraith.y >= 340) {
+      arrWraith.forEach((n) => (n.speed = -1.5));
+    } else if (wraith.y <= 10) {
+      arrWraith.forEach((i) => (i.speed = 1.5));
+    }
+  });
+}
+// wraith ray
+class Ray {
+  constructor(x, y, width, height) {
+    this.x = x;
+    this.y = y;
+    this.width = width;
+    this.height = height;
+    this.speed = 4;
+  }
+
+  render() {
+    ctx.drawImage(ray, (this.x -= this.speed), this.y, this.width, this.height);
+  }
+}
+
+// **** TO DO ****
+let arrRay = [];
+function wraithRay(e) {
+  // need some randomness here
+  if (e.keyCode === 32) {
+    // fire!
+    const rayz = new Ray(player.x - 30, player.y, 25, 25);
+    arrRay.push(rayz);
+
+    // wait to reload
+    setTimeout(function () {
+      blasts.textContent = "";
+    }, 300);
+  }
+}
+
+// hit detection (hitting wraiths)
 
 // game loop
 function gameLoop() {
@@ -126,10 +162,10 @@ function gameLoop() {
   player.render();
   // wraith.render();
   arrWraith.forEach((wraith) => wraith.render());
+  changeDirection();
   arrBlasts.forEach((pew) => pew.render());
+  arrRay.forEach((rayz) => rayz.render()); //  NOT WORKING
 }
-
-// hit detection (hitting wraiths)
 
 // event listeners
 document.addEventListener("DOMContentLoaded", function () {
