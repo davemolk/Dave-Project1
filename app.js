@@ -7,6 +7,8 @@ const ray = document.getElementById("ray");
 const blasts = document.getElementById("blasts");
 let player;
 let wraith;
+let pew;
+let rayz;
 
 // canvas setup
 const ctx = game.getContext("2d");
@@ -50,7 +52,7 @@ class Blasts {
     this.y = y;
     this.width = width;
     this.height = height;
-    this.speed = 4;
+    this.speed = 15;
   }
 
   render() {
@@ -64,7 +66,7 @@ function shipBlasts(e) {
     console.log("pew");
     blasts.textContent = "pewwwwww";
     // fire!
-    const pew = new Blasts(player.x + 30, player.y, 25, 25);
+    pew = new Blasts(player.x + 30, player.y, 25, 25);
     console.log(pew);
     arrBlasts.push(pew);
 
@@ -145,7 +147,7 @@ function wraithRay(e) {
   // need some randomness here
   if (e.keyCode === 32) {
     // fire!
-    const rayz = new Ray(player.x - 30, player.y, 25, 25);
+    rayz = new Ray(player.x - 30, player.y, 25, 25);
     arrRay.push(rayz);
 
     // wait to reload
@@ -159,13 +161,20 @@ function wraithRay(e) {
 function hitWraith() {
   for (let i = 0; i < arrWraith.length; i++) {
     for (let j = 0; j < arrBlasts.length; j++) {
-      if (arrBlasts[j].x < arrWraith[i].x && arrBlasts[j].y < arrWraith[i].y) {
+      if (
+        arrBlasts[j].y + pew.height > arrWraith[i].y &&
+        arrBlasts[j].y < arrWraith[i].y + wraith.height &&
+        arrBlasts[j].x + pew.width > arrWraith[i].x &&
+        arrBlasts[j].x < arrWraith[i].x + wraith.width
+      ) {
         arrWraith.splice(i, 1);
         arrBlasts.splice(j, 1);
       }
     }
   }
 }
+
+// (arrBlasts[j].x > arrWraith[i].x && arrBlasts[j].y < arrWraith[i].y)
 
 // player loses
 
@@ -177,9 +186,9 @@ function gameLoop() {
   player.render();
   arrWraith.forEach((wraith) => wraith.render());
   wraithMovement();
-  hitWraith();
   arrBlasts.forEach((pew) => pew.render());
   arrRay.forEach((rayz) => rayz.render()); //  NOT WORKING
+  hitWraith();
 }
 
 // event listeners
