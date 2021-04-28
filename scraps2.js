@@ -145,7 +145,7 @@ function wraithMovement() {
         arrWraith.forEach((wraith) => {
           wraith.speed = 10;
           wraith.y += 1;
-          wraith.x -= 50;
+          wraith.x -= 50; // use 5
         });
       } else if (arrWraith.length <= 15) {
         arrWraith.forEach((wraith) => (wraith.speed = 5));
@@ -170,40 +170,36 @@ class Ray {
   }
 }
 
-// wraith blasts
+// **** TO DO ****
+
+// function wraithRay(e) {
+//   if (e.keyCode === 76) {
+//     rayz = new Ray(wraith.x - 30, wraith.y, 25, 25); // randomize the y
+//     arrRay.push(rayz);
+//   }
+
+//   // wait to reload
+//   setTimeout(function () {}, 500);
+// }
+
 function wraithRay() {
-  for (let i = 0; i < arrWraith.length; i++) {
-    if (Math.random() > 0.3 && arrWraith[i].alive) {
-      arrWraith[i].fire();
-      setTimeout(function () {
-        console.log("waiting to fire");
-        return null;
-      }, 5000);
+  for (let y = 0; y < col; y++) {
+    for (let x = 0; x < row; x++) {
+      let randomY = Math.floor(Math.random() * col);
+      let randomX = Math.floor(Math.random() * row);
+      // if (wraith[randomY][randomX].alive) {
+      //   wraith[randomY][randomX].fire();
+      rayz = new Ray(wraith.x - 30, wraith.randomY, 25, 25);
+      arrRay.push(rayz);
+      // }
     }
+
     // wait to reload
-    setTimeout(function () {
-      console.log("waiting to reload");
-      return null;
-    }, 5000);
+    // setTimeout(function () {
+    //   );
+    // }, 500);
   }
 }
-
-// function wraithRay() {
-//   for (let i = 0; i < arrWraith.length; i++) {
-//     if (Math.random() > 0.3 && arrWraith[i].alive) {
-//       arrWraith[i].fire();
-//       setTimeout(function () {
-//         console.log("waiting to fire");
-//         return null;
-//       }, 5000);
-//     }
-//     // wait to reload
-//     setTimeout(function () {
-//       console.log("waiting to reload");
-//       return null;
-//     }, 5000);
-//   }
-// }
 
 // *********** HIT DETECTION AND LOSING CONDITIONS ************
 // hitting wraiths
@@ -216,7 +212,6 @@ function hitWraith() {
         arrBlasts[j].x + pew.width > arrWraith[i].x &&
         arrBlasts[j].x < arrWraith[i].x + wraith.width
       ) {
-        arrWraith[i].alive = false; // possibly delete
         arrWraith.splice(i, 1);
         arrBlasts.splice(j, 1);
         points += 50;
@@ -352,3 +347,22 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 });
+
+// restart...this should maybe be in the above event listener...(adding to above)
+// gameState.addEventListener("click", function () {
+//   if (gameState.textContent === "Click to Begin!") {
+//     const runGame = setInterval(gameLoop, 60);
+//     gameState.textContent = "Click to Restart";
+//   } else if (gameState.textContent === "Click to Restart") {
+//     console.log("i clicked");
+//     // clearInterval(60);
+//     clearCanvas(); // NOT WORKING
+//     // arrWraith.map((n) => (n.alive = false));
+//     // console.log(arrWraith);
+//     // player.alive = false;
+//     // console.log(player);
+//     // const runGame = setInterval(gameLoop, 60);
+//     gameState.textContent === "Click to Begin!"; // NOT WORKING
+//     console.log("hi");
+//   }
+// });
