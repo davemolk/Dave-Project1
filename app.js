@@ -231,7 +231,7 @@ function touchShip() {
       player.x < arrWraith[i].x + wraith.width
     ) {
       player.alive = false;
-      console.log("touched by wraith");
+      blasts.textContent = "Space wraithed! Touched by wraith.";
       loser();
     }
   }
@@ -247,7 +247,7 @@ function rayShip() {
       player.x < arrRay[i].x + wraith.width
     ) {
       player.alive = false;
-      console.log("you died from a ray");
+      blasts.textContent = "Space wraithed! Blasted to smithereens.";
       loser();
     }
   }
@@ -257,9 +257,9 @@ function rayShip() {
 function touchX() {
   for (let i = 0; i < arrWraith.length; i++) {
     // console.log(arrWraith[i]);
-    if (arrWraith[i].x <= player.width) {
+    if (arrWraith[i].x <= -wraith.width) {
       player.alive = false;
-      console.log("wraith touches x axis");
+      blasts.textContent = "Space wraithed! A wraith got past you.";
       loser();
     }
   }
@@ -283,7 +283,7 @@ function loser() {
     arrWraith.length = 0;
     // gameState.textContent = "Click to Begin!";
     gameState.textContent = "Click to Restart";
-    blasts.textContent = "You've been space wraithed!";
+    // blasts.textContent = "You've been space wraithed!";
     clearInterval(runGame); // stops/freezes game
     clearCanvas(); //clears screen
     // call the restart function ?
