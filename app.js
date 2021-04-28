@@ -230,9 +230,8 @@ function touchShip() {
       player.x + player.width > arrWraith[i].x &&
       player.x < arrWraith[i].x + wraith.width
     ) {
-      arrWraith.splice(i, 1);
       player.alive = false;
-      console.log("you died");
+      console.log("touched by wraith");
       loser();
     }
   }
@@ -247,9 +246,8 @@ function rayShip() {
       player.x + player.width > arrRay[i].x &&
       player.x < arrRay[i].x + wraith.width
     ) {
-      arrRay.splice(i, 1);
       player.alive = false;
-      console.log("you died");
+      console.log("you died from a ray");
       loser();
     }
   }
@@ -258,10 +256,10 @@ function rayShip() {
 // wraith reaches x = 0
 function touchX() {
   for (let i = 0; i < arrWraith.length; i++) {
+    // console.log(arrWraith[i]);
     if (arrWraith[i].x === 0) {
-      arrWraith.splice(i, 1);
-      console.log("touched x axis");
       player.alive = false;
+      console.log("wraith touches x axis");
       loser();
     }
   }
@@ -274,26 +272,36 @@ function clearCanvas() {
 }
 
 function winner() {
-  if (arrWraith.length === 0 && player.alive === true)
+  if (arrWraith.length === 0 && player.alive === true) {
     instructions.textContent = "You Won!";
+    gameState.textContent === "Click to Begin!";
+  }
 }
 
 function loser() {
   if (player.alive === false) {
+    arrWraith.length = 0;
+    // gameState.textContent = "Click to Begin!";
     gameState.textContent = "Click to Restart";
     blasts.textContent = "You've been space wraithed!";
     clearInterval(runGame); // stops/freezes game
     clearCanvas(); //clears screen
-    // call the restart function
+    // call the restart function ?
+    // restart();
   }
 }
 
 function restart() {
-  console.log("restarting");
+  console.log("restart function");
+  player.alive = true;
+  arrBlasts.length = 0;
   arrWraith.length = 0;
   moreWraiths();
+  arrRay.length = 0;
   points = 0;
   score.textContent = "Score";
+  instructions.textContent = "up/down arrows to move, spacebar to shoot";
+  blasts.textContent = "";
   gameState.textContent === "Click to Begin!";
 }
 
