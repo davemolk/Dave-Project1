@@ -16,13 +16,11 @@ let runGame;
 
 // player globals
 let player;
-let pew;
 let arrBlasts = [];
 
 // wraith globals
 let wraith;
 let arrWraith = [];
-let rayz;
 let arrRay = [];
 
 // canvas setup
@@ -76,10 +74,9 @@ function shipBlasts(e) {
   if (e.keyCode === 32) {
     blasts.textContent = "pewwwwww";
     // fire!
-    pew = new Blasts(player.x + 30, player.y, 25, 25);
-    arrBlasts.push(pew);
+    arrBlasts.push(new Blasts(player.x + 30, player.y, 25, 25));
 
-    // wait to reload
+    // erase 'pew'
     setTimeout(function () {
       blasts.textContent = "";
     }, 500);
@@ -125,8 +122,6 @@ function moreWraiths() {
   }
 }
 
-moreWraiths();
-
 // wraith movement
 function wraithMovement() {
   arrWraith.forEach((wraith) => {
@@ -135,7 +130,7 @@ function wraithMovement() {
         arrWraith.forEach((wraith) => {
           wraith.speed = -10;
           wraith.y -= 1;
-          wraith.x -= 50;
+          wraith.x -= 25;
         });
       } else if (arrWraith.length <= 15) {
         arrWraith.forEach((wraith) => (wraith.speed = -5));
@@ -145,7 +140,7 @@ function wraithMovement() {
         arrWraith.forEach((wraith) => {
           wraith.speed = 10;
           wraith.y += 1;
-          wraith.x -= 50;
+          wraith.x -= 25;
         });
       } else if (arrWraith.length <= 15) {
         arrWraith.forEach((wraith) => (wraith.speed = 5));
@@ -153,16 +148,15 @@ function wraithMovement() {
     }
   });
 }
-// how do i avoid hardcoding this?
 
-// wraith ray NOT WORKING
+// wraith ray
 class Ray {
   constructor(x, y, width, height) {
     this.x = x;
     this.y = y;
     this.width = width;
     this.height = height;
-    this.speed = 15;
+    this.speed = 5;
   }
 
   render() {
@@ -172,22 +166,11 @@ class Ray {
 
 // wraith blasts
 function wraithRay() {
-  for (let i = 0; i < arrWraith.length; i++) {
-    if (Math.random() > 0.3 && arrWraith[i].alive) {
-      arrWraith[i].fire();
-      setTimeout(function () {
-        console.log("waiting to fire");
-        return null;
-      }, 5000);
-    }
-    // wait to reload
-    setTimeout(function () {
-      console.log("waiting to reload");
-      return null;
-    }, 5000);
+  let random = Math.floor(Math.random() * 20);
+  if (Math.random() > 0.9 && arrWraith[random].alive) {
+    arrWraith[random].fire();
   }
 }
-
 // function wraithRay() {
 //   for (let i = 0; i < arrWraith.length; i++) {
 //     if (Math.random() > 0.3 && arrWraith[i].alive) {
@@ -211,9 +194,9 @@ function hitWraith() {
   for (let i = 0; i < arrWraith.length; i++) {
     for (let j = 0; j < arrBlasts.length; j++) {
       if (
-        arrBlasts[j].y + pew.height > arrWraith[i].y &&
+        arrBlasts[j].y + 25 > arrWraith[i].y &&
         arrBlasts[j].y < arrWraith[i].y + wraith.height &&
-        arrBlasts[j].x + pew.width > arrWraith[i].x &&
+        arrBlasts[j].x + 25 > arrWraith[i].x &&
         arrBlasts[j].x < arrWraith[i].x + wraith.width
       ) {
         arrWraith[i].alive = false; // possibly delete
@@ -226,7 +209,7 @@ function hitWraith() {
   }
 }
 
-// wraiths touch ship
+// wraith touches ship
 function touchShip() {
   for (let i = 0; i < arrWraith.length; i++) {
     if (
@@ -261,7 +244,6 @@ function rayShip() {
 // wraith reaches x = 0
 function touchX() {
   for (let i = 0; i < arrWraith.length; i++) {
-    // console.log(arrWraith[i]);
     if (arrWraith[i].x <= -wraith.width) {
       player.alive = false;
       blasts.textContent = "Space wraithed! A wraith got past you.";
@@ -316,11 +298,13 @@ function gameLoop() {
   movementDisplay.textContent = `X: ${player.x} 
   Y: ${player.y}`;
   player.render();
-  arrBlasts.forEach((pew) => pew.render());
-  arrWraith.forEach((wraith) => wraith.render());
+  arrBlasts.map((blast) => blast.render());
+  arrWraith.map((wraith) => wraith.render());
   wraithMovement();
+  // setTimeout(wraithRay, 1000);
+  // wraithMovement();
   wraithRay();
-  arrRay.forEach((rayz) => rayz.render()); //  NOT WORKING
+  arrRay.map((ray) => ray.render());
   hitWraith();
   // losing the game
   touchShip();
@@ -335,7 +319,8 @@ function gameLoop() {
 // *********** EVENT LISTENERS ************
 document.addEventListener("DOMContentLoaded", function () {
   player = new Ship(10, 200, 30, 30);
-  wraith = new Wraith(500, 100, 50, 50); // is this doing anything? stops some errors but doesn't seem to do anything for game play
+  moreWraiths();
+  // wraith = new Wraith(500, 100, 50, 50); // is this doing anything? stops some errors but doesn't seem to do anything for game play
   document.addEventListener("keydown", shipMove);
   document.addEventListener("keydown", shipBlasts);
   // document.addEventListener("keydown", wraithRay);
