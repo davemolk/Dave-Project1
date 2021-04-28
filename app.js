@@ -257,7 +257,7 @@ function rayShip() {
 function touchX() {
   for (let i = 0; i < arrWraith.length; i++) {
     // console.log(arrWraith[i]);
-    if (arrWraith[i].x === 0) {
+    if (arrWraith[i].x <= player.width) {
       player.alive = false;
       console.log("wraith touches x axis");
       loser();
@@ -319,8 +319,8 @@ function gameLoop() {
   hitWraith();
   // losing the game
   touchShip();
-  rayShip();
   touchX();
+  rayShip();
   loser();
 
   // winning
