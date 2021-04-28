@@ -125,7 +125,7 @@ function moreWraiths() {
   }
 }
 
-moreWraiths(); // why am i calling this here and why doesn't it work in the game loop?
+moreWraiths();
 
 // wraith movement
 function wraithMovement() {
@@ -274,15 +274,27 @@ function clearCanvas() {
 }
 
 function winner() {
-  if (arrWraith.length === 0) instructions.textContent = "You Won!";
+  if (arrWraith.length === 0 && player.alive === true)
+    instructions.textContent = "You Won!";
 }
 
 function loser() {
   if (player.alive === false) {
     gameState.textContent = "Click to Restart";
     blasts.textContent = "You've been space wraithed!";
+    clearInterval(runGame); // stops/freezes game
+    clearCanvas(); //clears screen
     // call the restart function
   }
+}
+
+function restart() {
+  console.log("restarting");
+  arrWraith.length = 0;
+  moreWraiths();
+  points = 0;
+  score.textContent = "Score";
+  gameState.textContent === "Click to Begin!";
 }
 
 // *********** GAME LOOP ************
@@ -320,10 +332,10 @@ document.addEventListener("DOMContentLoaded", function () {
       runGame = setInterval(gameLoop, 60);
       gameState.textContent = "Click to Restart";
     } else if (gameState.textContent === "Click to Restart") {
-      console.log("i clicked");
       gameState.textContent = "Click to Begin!";
-      clearInterval(runGame);
-      clearCanvas();
+      clearInterval(runGame); // stops/freezes game
+      clearCanvas(); //clears screen
+      restart();
     }
   });
 });
