@@ -8,6 +8,7 @@ const ray = document.getElementById("ray");
 const blasts = document.getElementById("blasts");
 const score = document.getElementById("score");
 const instructions = document.getElementById("instructions");
+let gameState = document.getElementById("game-state");
 const row = 4;
 const col = 5;
 let points = 0;
@@ -28,10 +29,6 @@ const ctx = game.getContext("2d");
 
 game.setAttribute("height", getComputedStyle(game)["height"]);
 game.setAttribute("width", getComputedStyle(game)["width"]);
-
-function clearCanvas() {
-  ctx.clearRect(0, 0, game.width, game.height);
-}
 
 // *********** SHIP ************
 // ship setup
@@ -137,7 +134,7 @@ function wraithMovement() {
         arrWraith.forEach((wraith) => {
           wraith.speed = -10;
           wraith.y -= 1;
-          wraith.x -= 5;
+          wraith.x -= 50;
         });
       } else if (arrWraith.length <= 15) {
         arrWraith.forEach((wraith) => (wraith.speed = -5));
@@ -147,7 +144,7 @@ function wraithMovement() {
         arrWraith.forEach((wraith) => {
           wraith.speed = 10;
           wraith.y += 1;
-          wraith.x -= 5;
+          wraith.x -= 50; // use 5
         });
       } else if (arrWraith.length <= 15) {
         arrWraith.forEach((wraith) => (wraith.speed = 5));
@@ -203,7 +200,8 @@ function wraithRay() {
   }
 }
 
-// hit detection (hitting wraiths)
+// *********** HIT DETECTION ************
+// hitting wraiths
 function hitWraith() {
   for (let i = 0; i < arrWraith.length; i++) {
     for (let j = 0; j < arrBlasts.length; j++) {
@@ -222,12 +220,71 @@ function hitWraith() {
   }
 }
 
+// wraiths touch ship
+function touchShip() {
+  for (let i = 0; i < arrWraith.length; i++) {
+    if (
+      player.y + player.height > arrWraith[i].y &&
+      player.y < arrWraith[i].y + wraith.height &&
+      player.x + player.width > arrWraith[i].x &&
+      player.x < arrWraith[i].x + wraith.width
+    ) {
+      arrWraith.splice(i, 1);
+      player.alive = false;
+      console.log("you died");
+      loser();
+    }
+  }
+}
+
+// wraith ray touches ship
+function rayShip() {
+  for (let i = 0; i < arrRay.length; i++) {
+    if (
+      player.y + player.height > arrRay[i].y &&
+      player.y < arrRay[i].y + wraith.height &&
+      player.x + player.width > arrRay[i].x &&
+      player.x < arrRay[i].x + wraith.width
+    ) {
+      arrRay.splice(i, 1);
+      player.alive = false;
+      console.log("you died");
+      loser();
+    }
+  }
+}
+
+// wraith reaches x = 0
+function touchX() {
+  for (let i = 0; i < arrWraith.length; i++) {
+    if (arrWraith[i].x === 0) {
+      arrWraith.splice(i, 1);
+      console.log("touched x axis");
+      player.alive = false;
+      loser();
+    }
+  }
+}
+
+// *********** GAME CONDITIONS ************
 // game conditions
+function clearCanvas() {
+  ctx.clearRect(0, 0, game.width, game.height);
+}
+
 function winner() {
   if (arrWraith.length === 0) instructions.textContent = "You Won!";
 }
 
-// game loop
+function loser() {
+  if (player.alive === false) {
+    gameState.textContent = "Click to Restart";
+    blasts.textContent = "You've been space wraithed!";
+    // call the restart function
+  }
+}
+
+// *********** GAME LOOP ************
 function gameLoop() {
   clearCanvas();
   movementDisplay.textContent = `X: ${player.x} 
@@ -239,17 +296,41 @@ function gameLoop() {
   wraithRay();
   arrRay.forEach((rayz) => rayz.render()); //  NOT WORKING
   hitWraith();
+  // losing the game
+  touchShip();
+  rayShip();
+  touchX();
+  loser();
+
+  // winning
   winner();
 }
 
-// event listeners
+// *********** EVENT LISTENERS ************
 document.addEventListener("DOMContentLoaded", function () {
   player = new Ship(10, 200, 30, 30);
   wraith = new Wraith(500, 100, 50, 50);
   document.addEventListener("keydown", shipMove);
   document.addEventListener("keydown", shipBlasts);
   // document.addEventListener("keydown", wraithRay);
-  const runGame = setInterval(gameLoop, 60);
+  // const runGame = setInterval(gameLoop, 60);
 });
 
-// restart
+// restart...this should maybe be in the above event listener...
+gameState.addEventListener("click", function () {
+  if (gameState.textContent === "Click to Begin!") {
+    const runGame = setInterval(gameLoop, 60);
+    gameState.textContent = "Click to Restart";
+  } else if (gameState.textContent === "Click to Restart") {
+    console.log("i clicked");
+    // clearInterval(60);
+    clearCanvas(); // NOT WORKING
+    // arrWraith.map((n) => (n.alive = false));
+    // console.log(arrWraith);
+    // player.alive = false;
+    // console.log(player);
+    // const runGame = setInterval(gameLoop, 60);
+    gameState.textContent === "Click to Begin!"; // NOT WORKING
+    console.log("hi");
+  }
+});
