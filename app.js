@@ -12,6 +12,7 @@ let gameState = document.getElementById("game-state");
 const row = 4;
 const col = 5;
 let points = 0;
+let runGame;
 
 // player globals
 let player;
@@ -200,7 +201,7 @@ function wraithRay() {
   }
 }
 
-// *********** HIT DETECTION ************
+// *********** HIT DETECTION AND LOSING CONDITIONS ************
 // hitting wraiths
 function hitWraith() {
   for (let i = 0; i < arrWraith.length; i++) {
@@ -309,28 +310,39 @@ function gameLoop() {
 // *********** EVENT LISTENERS ************
 document.addEventListener("DOMContentLoaded", function () {
   player = new Ship(10, 200, 30, 30);
-  wraith = new Wraith(500, 100, 50, 50);
+  wraith = new Wraith(500, 100, 50, 50); // is this doing anything? stops some errors but doesn't seem to do anything for game play
   document.addEventListener("keydown", shipMove);
   document.addEventListener("keydown", shipBlasts);
   // document.addEventListener("keydown", wraithRay);
   // const runGame = setInterval(gameLoop, 60);
+  gameState.addEventListener("click", function () {
+    if (gameState.textContent === "Click to Begin!") {
+      runGame = setInterval(gameLoop, 60);
+      gameState.textContent = "Click to Restart";
+    } else if (gameState.textContent === "Click to Restart") {
+      console.log("i clicked");
+      gameState.textContent = "Click to Begin!";
+      clearInterval(runGame);
+      clearCanvas();
+    }
+  });
 });
 
-// restart...this should maybe be in the above event listener...
-gameState.addEventListener("click", function () {
-  if (gameState.textContent === "Click to Begin!") {
-    const runGame = setInterval(gameLoop, 60);
-    gameState.textContent = "Click to Restart";
-  } else if (gameState.textContent === "Click to Restart") {
-    console.log("i clicked");
-    // clearInterval(60);
-    clearCanvas(); // NOT WORKING
-    // arrWraith.map((n) => (n.alive = false));
-    // console.log(arrWraith);
-    // player.alive = false;
-    // console.log(player);
-    // const runGame = setInterval(gameLoop, 60);
-    gameState.textContent === "Click to Begin!"; // NOT WORKING
-    console.log("hi");
-  }
-});
+// restart...this should maybe be in the above event listener...(adding to above)
+// gameState.addEventListener("click", function () {
+//   if (gameState.textContent === "Click to Begin!") {
+//     const runGame = setInterval(gameLoop, 60);
+//     gameState.textContent = "Click to Restart";
+//   } else if (gameState.textContent === "Click to Restart") {
+//     console.log("i clicked");
+//     // clearInterval(60);
+//     clearCanvas(); // NOT WORKING
+//     // arrWraith.map((n) => (n.alive = false));
+//     // console.log(arrWraith);
+//     // player.alive = false;
+//     // console.log(player);
+//     // const runGame = setInterval(gameLoop, 60);
+//     gameState.textContent === "Click to Begin!"; // NOT WORKING
+//     console.log("hi");
+//   }
+// });
