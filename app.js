@@ -1,3 +1,4 @@
+// DOM-related globals
 const movementDisplay = document.getElementById("movement");
 const game = document.getElementById("game");
 const shipImage = document.getElementById("shipImage");
@@ -6,14 +7,20 @@ const zap = document.getElementById("zap");
 const ray = document.getElementById("ray");
 const blasts = document.getElementById("blasts");
 const score = document.getElementById("score");
-let player;
-let wraith;
-let pew;
-let rayz;
-let points = 0;
+const instructions = document.getElementById("instructions");
 const row = 4;
 const col = 5;
+let points = 0;
+
+// player globals
+let player;
+let pew;
+let arrBlasts = [];
+
+// wraith globals
+let wraith;
 let arrWraith = [];
+let rayz;
 let arrRay = [];
 
 // canvas setup
@@ -66,8 +73,7 @@ class Blasts {
   }
 }
 
-//
-let arrBlasts = [];
+// ship blasts
 function shipBlasts(e) {
   if (e.keyCode === 32) {
     blasts.textContent = "pewwwwww";
@@ -90,7 +96,7 @@ class Wraith {
     this.y = y;
     this.width = width;
     this.height = height;
-    this.speed = 1.5; // update as wraiths get destroyed?
+    this.speed = 2;
     this.alive = true;
   }
 
@@ -112,7 +118,6 @@ class Wraith {
 }
 
 // wraith array
-
 function moreWraiths() {
   for (let y = 0; y < col; y++) {
     for (let x = 0; x < row; x++) {
@@ -130,50 +135,26 @@ function wraithMovement() {
     if (wraith.y >= 340) {
       if (arrWraith.length <= 10) {
         arrWraith.forEach((wraith) => {
-          wraith.speed = -8;
+          wraith.speed = -10;
           wraith.y -= 1;
           wraith.x -= 5;
         });
       } else if (arrWraith.length <= 15) {
-        arrWraith.forEach((wraith) => (wraith.speed = -4));
-      } else arrWraith.forEach((wraith) => (wraith.speed = -1.5));
+        arrWraith.forEach((wraith) => (wraith.speed = -5));
+      } else arrWraith.forEach((wraith) => (wraith.speed = -2));
     } else if (wraith.y <= 10) {
       if (arrWraith.length <= 10) {
         arrWraith.forEach((wraith) => {
-          wraith.speed = 8;
+          wraith.speed = 10;
           wraith.y += 1;
           wraith.x -= 5;
         });
       } else if (arrWraith.length <= 15) {
-        arrWraith.forEach((wraith) => (wraith.speed = 4));
-      } else arrWraith.forEach((wraith) => (wraith.speed = 1.5));
+        arrWraith.forEach((wraith) => (wraith.speed = 5));
+      } else arrWraith.forEach((wraith) => (wraith.speed = 2));
     }
   });
 }
-
-// function wraithMovement() {
-//   arrWraith.forEach((wraith) => {
-//     // if (arrWraith.length < 15) wraith.speed = 4;
-//     if (wraith.y >= 340) {
-//       arrWraith.forEach((wraith) =>
-//         arrWraith.length <= 10
-//           ? (wraith.speed = -8)
-//           : arrWraith.length <= 15
-//           ? (wraith.speed = -4)
-//           : (wraith.speed = -1.5)
-//       );
-//     } else if (wraith.y <= 10) {
-//       arrWraith.forEach((wraith) =>
-//         arrWraith.length <= 10
-//           ? (wraith.speed = 8)
-//           : arrWraith.length <= 15
-//           ? (wraith.speed = 4)
-//           : (wraith.speed = 1.5)
-//       );
-//     }
-//   });
-// }
-
 // how do i avoid hardcoding this?
 
 // wraith ray NOT WORKING
@@ -192,7 +173,7 @@ class Ray {
 }
 
 // **** TO DO ****
-// let arrRay = [];
+
 // function wraithRay(e) {
 //   if (e.keyCode === 76) {
 //     rayz = new Ray(wraith.x - 30, wraith.y, 25, 25); // randomize the y
@@ -210,6 +191,8 @@ function wraithRay() {
       let randomX = Math.floor(Math.random() * row);
       // if (wraith[randomY][randomX].alive) {
       //   wraith[randomY][randomX].fire();
+      rayz = new Ray(wraith.x - 30, wraith.randomY, 25, 25);
+      arrRay.push(rayz);
       // }
     }
 
@@ -239,7 +222,10 @@ function hitWraith() {
   }
 }
 
-// player loses
+// game conditions
+function winner() {
+  if (arrWraith.length === 0) instructions.textContent = "You Won!";
+}
 
 // game loop
 function gameLoop() {
@@ -247,12 +233,13 @@ function gameLoop() {
   movementDisplay.textContent = `X: ${player.x} 
   Y: ${player.y}`;
   player.render();
+  arrBlasts.forEach((pew) => pew.render());
   arrWraith.forEach((wraith) => wraith.render());
   wraithMovement();
   wraithRay();
-  arrBlasts.forEach((pew) => pew.render());
   arrRay.forEach((rayz) => rayz.render()); //  NOT WORKING
   hitWraith();
+  winner();
 }
 
 // event listeners
