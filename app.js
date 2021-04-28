@@ -107,7 +107,7 @@ class Wraith {
 
   fire() {
     if (this.alive) {
-      arrRay.push(new Ray(this.x - 30, this.y, 25, 25));
+      arrRay.push(new Ray(this.x - 30, this.y, 20, 20));
     }
   }
 }
@@ -171,22 +171,6 @@ function wraithRay() {
     arrWraith[random].fire();
   }
 }
-// function wraithRay() {
-//   for (let i = 0; i < arrWraith.length; i++) {
-//     if (Math.random() > 0.3 && arrWraith[i].alive) {
-//       arrWraith[i].fire();
-//       setTimeout(function () {
-//         console.log("waiting to fire");
-//         return null;
-//       }, 5000);
-//     }
-//     // wait to reload
-//     setTimeout(function () {
-//       console.log("waiting to reload");
-//       return null;
-//     }, 5000);
-//   }
-// }
 
 // *********** HIT DETECTION AND LOSING CONDITIONS ************
 // hitting wraiths
@@ -230,9 +214,9 @@ function rayShip() {
   for (let i = 0; i < arrRay.length; i++) {
     if (
       player.y + player.height > arrRay[i].y &&
-      player.y < arrRay[i].y + wraith.height &&
+      player.y < arrRay[i].y + 20 &&
       player.x + player.width > arrRay[i].x &&
-      player.x < arrRay[i].x + wraith.width
+      player.x < arrRay[i].x + 20
     ) {
       player.alive = false;
       blasts.textContent = "Space wraithed! Blasted to smithereens.";
@@ -252,7 +236,7 @@ function touchX() {
   }
 }
 
-// *********** GAME CONDITIONS ************
+// *********** ENDING AND RESTARTING ************
 // game conditions
 function clearCanvas() {
   ctx.clearRect(0, 0, game.width, game.height);
@@ -261,6 +245,7 @@ function clearCanvas() {
 function winner() {
   if (arrWraith.length === 0 && player.alive === true) {
     instructions.textContent = "You Won!";
+    arrRay.length = 0;
     gameState.textContent === "Click to Begin!";
   }
 }
@@ -268,13 +253,9 @@ function winner() {
 function loser() {
   if (player.alive === false) {
     arrWraith.length = 0;
-    // gameState.textContent = "Click to Begin!";
     gameState.textContent = "Click to Restart";
-    // blasts.textContent = "You've been space wraithed!";
     clearInterval(runGame); // stops/freezes game
     clearCanvas(); //clears screen
-    // call the restart function ?
-    // restart();
   }
 }
 
@@ -301,8 +282,6 @@ function gameLoop() {
   arrBlasts.map((blast) => blast.render());
   arrWraith.map((wraith) => wraith.render());
   wraithMovement();
-  // setTimeout(wraithRay, 1000);
-  // wraithMovement();
   wraithRay();
   arrRay.map((ray) => ray.render());
   hitWraith();
@@ -320,11 +299,8 @@ function gameLoop() {
 document.addEventListener("DOMContentLoaded", function () {
   player = new Ship(10, 200, 30, 30);
   moreWraiths();
-  // wraith = new Wraith(500, 100, 50, 50); // is this doing anything? stops some errors but doesn't seem to do anything for game play
   document.addEventListener("keydown", shipMove);
   document.addEventListener("keydown", shipBlasts);
-  // document.addEventListener("keydown", wraithRay);
-  // const runGame = setInterval(gameLoop, 60);
   gameState.addEventListener("click", function () {
     if (gameState.textContent === "Click to Begin!") {
       runGame = setInterval(gameLoop, 60);
