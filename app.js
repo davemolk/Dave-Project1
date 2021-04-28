@@ -49,10 +49,9 @@ function shipMove(e) {
   } else if (e.keyCode === 40 && player.y < 370) {
     player.y += 10;
   }
-  // try this as e.key, documentation says others deprecated https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key
 }
 
-// ship blasts
+// ship blast class
 class Blasts {
   constructor(x, y, width, height) {
     this.x = x;
@@ -67,6 +66,7 @@ class Blasts {
   }
 }
 
+//
 let arrBlasts = [];
 function shipBlasts(e) {
   if (e.keyCode === 32) {
@@ -131,7 +131,7 @@ function wraithMovement() {
       if (arrWraith.length <= 10) {
         arrWraith.forEach((wraith) => {
           wraith.speed = -8;
-          wraith.y += 1;
+          wraith.y -= 1;
           wraith.x -= 5;
         });
       } else if (arrWraith.length <= 15) {
@@ -174,10 +174,6 @@ function wraithMovement() {
 //   });
 // }
 
-// have them start moving faster after 5 are killed
-// have them start moving towards player after 10 are killed
-// how do i set this to happen as soon as the array changes instead of now, where it depends on location?
-// looks like i cant' have {} in arrow functions?!?
 // how do i avoid hardcoding this?
 
 // wraith ray NOT WORKING
@@ -199,14 +195,12 @@ class Ray {
 // let arrRay = [];
 // function wraithRay(e) {
 //   if (e.keyCode === 76) {
-//     rayz = new Ray(wraith.x - 30, wraith.y, 25, 25);
+//     rayz = new Ray(wraith.x - 30, wraith.y, 25, 25); // randomize the y
 //     arrRay.push(rayz);
 //   }
-//
+
 //   // wait to reload
-//   setTimeout(function () {
-//
-//   }, 500);
+//   setTimeout(function () {}, 500);
 // }
 
 function wraithRay() {
@@ -268,7 +262,7 @@ document.addEventListener("DOMContentLoaded", function () {
   document.addEventListener("keydown", shipMove);
   document.addEventListener("keydown", shipBlasts);
   // document.addEventListener("keydown", wraithRay);
-  const runGame = setInterval(gameLoop, 60); // what does this do?
+  const runGame = setInterval(gameLoop, 60);
 });
 
 // restart
