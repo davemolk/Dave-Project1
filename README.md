@@ -45,9 +45,12 @@ git clone https://github.com/davemolk/Dave-Project1.git
 
 # HOW IT WORKS
 
-The game uses canvas to render the images. The
+The game uses canvas to render the images. The actions of the player are tracked with event listeners, whereas the wraiths controlled by a combination of fixed behaviors and randomization.
 
-Code snippets go here
+Excerpt 1:
+This function controls the movement of the wraiths. The entire array of wraiths will change direction once one of them crosses either 340px or 10px on the y-axis (the height of the canvas is 400px). The function checks the number of remaining wraiths via the length of the array and updates the behavior if the number remaining is first 15 or smaller and next 10 or smaller.
+
+TODO: MAKE SURE THIS HASN'T CHANGED
 
 ```javascript
 function wraithMovement() {
@@ -77,27 +80,19 @@ function wraithMovement() {
 }
 ```
 
+Excerpt 2:
+This function controls the wraith ray.
+TODO: FINISH THIS AFTER CODE IS DONE
+
 # FUTURE CONSIDERATIONS
 
 1. different obstacles?
-2. speed of obstacles increases over time?
-3. background music?
-4. sound effects (gun, explosion)?
-5. "floating" when push arrow keys? or space by space?
-6. change ship size once you reach a certain score?
-7. obstacles shoot back?
-8. animate explosions?
-9. turbo boost for ship (change the amount of area covered by keystroke, need to toggle on and off)
-
-# PROCESS WORK
-
-## Initial Wireframes:
-
-Initial Wireframes go here ( images )
-
-## Scratch Work:
-
-Scratch Work goes here
+2. background music?
+3. sound effects (gun, explosion)?
+4. "floating" when push arrow keys? or space by space?
+5. change ship size once you reach a certain score?
+6. animate explosions?
+7. turbo boost for ship (change the amount of area covered by keystroke, need to toggle on and off)
 
 ## Acknowledgements
 
