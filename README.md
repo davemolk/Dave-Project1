@@ -50,8 +50,6 @@ The game uses canvas to render the images. The actions of the player are tracked
 Excerpt 1:
 This function controls the movement of the wraiths. The entire array of wraiths will change direction once one of them crosses either 340px or 10px on the y-axis (the height of the canvas is 400px). The function checks the number of remaining wraiths via the length of the array and updates the behavior if the number remaining is first 15 or smaller and next 10 or smaller.
 
-TODO: MAKE SURE THIS HASN'T CHANGED
-
 ```javascript
 function wraithMovement() {
   arrWraith.map((wraith) => {
@@ -81,8 +79,21 @@ function wraithMovement() {
 ```
 
 Excerpt 2:
-This function controls the wraith ray.
-TODO: FINISH THIS AFTER CODE IS DONE
+This function controls the wraith ray. It works by selecting a random wraith and then generating a random number that has to be hire than the blastFest variable in order for the wraith to fire. As the number of wraiths in the wraith array decreases, the threshold to fire also decreases, filling the screen with more wraith rays.
+
+```javascript
+function wraithRay() {
+  let blastFest = 0.95;
+  let randomWraith = Math.floor(Math.random() * 20);
+  if (arrWraith.length <= 12 && arrWraith.length > 8) blastFest = 0.85;
+  if (arrWraith.length <= 8) blastFest = 0.75;
+  if (arrWraith.length <= 4) blastFest = 0.6;
+  if (arrWraith.length <= 2) blastFest = 0.2;
+  if (arrWraith[randomWraith] !== undefined) {
+    if (Math.random() > blastFest) arrWraith[randomWraith].fire();
+  }
+}
+```
 
 # FUTURE CONSIDERATIONS
 

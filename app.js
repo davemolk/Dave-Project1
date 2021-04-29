@@ -22,7 +22,6 @@ let arrBlasts = [];
 let wraith;
 let arrWraith = [];
 let arrRay = [];
-let blastFest = 0.95;
 
 // canvas setup
 const ctx = game.getContext("2d");
@@ -167,22 +166,15 @@ class Ray {
 
 // wraith blasts
 function wraithRay() {
-  let random = Math.floor(Math.random() * 20);
-  if (arrWraith.length <= 15 && arrWraith.length > 8) blastFest = 0.85;
-  // change speed of Ray
+  let blastFest = 0.95;
+  let randomWraith = Math.floor(Math.random() * 20);
+  if (arrWraith.length <= 12 && arrWraith.length > 8) blastFest = 0.85;
   if (arrWraith.length <= 8) blastFest = 0.75;
-
-  // if (arrWraith.length <= 8) {
-  //   blastFest = 0.75;
-  // }
-  // console.log(blastFest);
-  if (arrWraith[random] !== undefined) {
-    if (Math.random() > blastFest) arrWraith[random].fire();
+  if (arrWraith.length <= 4) blastFest = 0.6;
+  if (arrWraith.length <= 2) blastFest = 0.2;
+  if (arrWraith[randomWraith] !== undefined) {
+    if (Math.random() > blastFest) arrWraith[randomWraith].fire();
   }
-  // if (Math.random() > blastFest && arrWraith[random].alive) {
-  //   arrWraith[random].fire();
-  // }
-  // if (player.alive === false || arrWraith.length === 0) return;
 }
 
 // *********** HIT DETECTION AND LOSING CONDITIONS ************
