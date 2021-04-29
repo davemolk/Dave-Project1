@@ -243,7 +243,7 @@ function touchX() {
   }
 }
 
-// *********** ENDING AND RESTARTING ************
+// *********** ENDING AND RESETTING ************
 // game conditions
 function clearCanvas() {
   ctx.clearRect(0, 0, game.width, game.height);
@@ -253,6 +253,7 @@ function winner() {
   if (arrWraith.length === 0 && player.alive === true) {
     instructions.textContent = "You Won!";
     arrRay.length = 0;
+    arrBlasts.length = 0;
     gameState.textContent === "Click to Begin!";
   }
 }
@@ -260,14 +261,13 @@ function winner() {
 function loser() {
   if (player.alive === false) {
     arrWraith.length = 0;
-    gameState.textContent = "Click to Restart";
+    gameState.textContent = "Click to Reset";
     clearInterval(runGame); // stops/freezes game
     clearCanvas(); //clears screen
   }
 }
 
-function restart() {
-  console.log("restart function");
+function reset() {
   player.alive = true;
   arrBlasts.length = 0;
   arrWraith.length = 0;
@@ -275,7 +275,7 @@ function restart() {
   arrRay.length = 0;
   points = 0;
   score.textContent = "Score";
-  instructions.textContent = "up/down arrows to move, spacebar to shoot";
+  instructions.textContent = "Up/Down Arrows to Move, Spacebar to Shoot"; // may be obsolete now
   blasts.textContent = "";
   gameState.textContent === "Click to Begin!";
 }
@@ -311,12 +311,12 @@ document.addEventListener("DOMContentLoaded", function () {
   gameState.addEventListener("click", function () {
     if (gameState.textContent === "Click to Begin!") {
       runGame = setInterval(gameLoop, 60);
-      gameState.textContent = "Click to Restart";
-    } else if (gameState.textContent === "Click to Restart") {
+      gameState.textContent = "Click to Reset";
+    } else if (gameState.textContent === "Click to Reset") {
       gameState.textContent = "Click to Begin!";
       clearInterval(runGame); // stops/freezes game
       clearCanvas(); //clears screen
-      restart();
+      reset();
     }
   });
 });
