@@ -9,6 +9,11 @@ const blasts = document.getElementById("blasts");
 const score = document.getElementById("score");
 const instructions = document.getElementById("instructions");
 let gameState = document.getElementById("game-state");
+const hasta = document.getElementById("hasta");
+const bleeds = document.getElementById("bleeds");
+const hell = document.getElementById("hell");
+const last = document.getElementById("last");
+const scream = document.getElementById("scream");
 const row = 4;
 const col = 5;
 let points = 0;
@@ -17,6 +22,13 @@ let runGame;
 // player globals
 let player;
 let arrBlasts = [];
+
+// sounds
+let hastaToggle = true;
+let screamToggle = true;
+let bleedsToggle = true;
+let hellToggle = true;
+let lastToggle = true;
 
 // wraith globals
 let wraith;
@@ -80,6 +92,25 @@ function shipBlasts(e) {
     setTimeout(function () {
       blasts.textContent = "";
     }, 500);
+  }
+}
+
+function arnie() {
+  if (arrWraith.length === 19 && screamToggle) {
+    scream.play();
+    screamToggle = false;
+  }
+  if (arrWraith.length === 15 && bleedsToggle) {
+    bleeds.play();
+    bleedsToggle = false;
+  }
+  if (arrWraith.length === 10 && hellToggle) {
+    hell.play();
+    hellToggle = false;
+  }
+  if (arrWraith.length === 5 && lastToggle) {
+    last.play();
+    lastToggle = false;
   }
 }
 
@@ -254,6 +285,8 @@ function winner() {
     instructions.textContent = "You Won!";
     arrRay.length = 0;
     arrBlasts.length = 0;
+    if (hastaToggle) hasta.play();
+    hastaToggle = false;
     gameState.textContent === "Click to Begin!";
   }
 }
@@ -286,6 +319,7 @@ function gameLoop() {
   movementDisplay.textContent = `X: ${player.x} 
   Y: ${player.y}`;
   player.render();
+  arnie();
   arrBlasts.map((blast) => blast.render());
   arrWraith.map((wraith) => wraith.render());
   wraithMovement();
