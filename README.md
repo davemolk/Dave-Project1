@@ -20,9 +20,7 @@ Click in the lower right-hand corner of the screen ("Click to Begin!") to load t
 
 ## Wraith Behavior
 
-Once there are 15 or fewer space wraiths remaining, they start moving faster. When there are 10 or fewer, they begin to come towards you, and their flight path depends on which are remaining.
-
-[TODO: DID I CHANGE BEHAVIOR?]
+Once there are 15 or fewer space wraiths remaining, they start moving faster. When there are 10 or fewer, they begin to come towards you, and their flight path depends on which are remaining. Their movement depends on which wraiths in the array remain, so shoot wisely.
 
 ## How to Lose
 
@@ -97,14 +95,15 @@ function wraithRay() {
 
 # FUTURE CONSIDERATIONS
 
-1. different obstacles?
-2. background music?
-3. sound effects (gun, explosion)?
-4. "floating" when push arrow keys? or space by space?
-5. change ship size once you reach a certain score?
-6. animate explosions?
-7. turbo boost for ship (change the amount of area covered by keystroke, need to toggle on and off)
+Here is a partial list of elements that I think might be worthwhile to incorporate into the game:
+
+1. Create different classes of wraiths, each with different characteristics (stamina, speed, sprite, etc.).
+2. Create various power-ups (speed boost, bigger/better gun, etc.) that the player can access.
+3. Animate explosions.
+4. Include some random asteriods.
+5. Make this a multi-level game, with increasingly harder baddies and cool powerups as the levels increase.
+6. Develop some background music and sound effects.
 
 ## Acknowledgements
 
-Thanks to Open Game Art for the ship image (https://opengameart.org/content/space-ship-construction-kit) and the dungeon images (https://opengameart.org/content/dungeon-crawl-32x32-tiles)
+Thanks to Open Game Art for the ship image (https://opengameart.org/content/space-ship-construction-kit) and the dungeon images (https://opengameart.org/content/dungeon-crawl-32x32-tiles). Thanks to Carolina Urrea's "Save the Burger" (https://github.com/canourrea23/save-the-burger) for inspiration and to Rome Bell for his very helpful troubleshooting.
