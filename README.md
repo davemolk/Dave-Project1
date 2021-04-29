@@ -2,7 +2,7 @@
 
 This is a reimagining of Space Invaders, turned on its side. You pilot a ship up and down, trying to kill off all the space wraiths, while they do their best to blast you to smithereens. Their gameplay changes the fewer of them there are, so be careful out there!
 
-[TODO:] deployed link will go here.
+Play online at https://davemolk.github.io/Space-Wraiths/
 
 # HOW TO PLAY
 
@@ -34,7 +34,7 @@ You lose if you're blasted to smithereens, if you're touched by a wraith, or if 
 
 # HOW TO INSTALL
 
-1. Go to the repo [TODO: LINK HERE]
+1. Go to the repo
 2. _`Fork`_ and _`Clone`_ the repo to your local machine
 
 git clone https://github.com/davemolk/Dave-Project1.git
