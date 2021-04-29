@@ -124,27 +124,27 @@ function moreWraiths() {
 
 // wraith movement
 function wraithMovement() {
-  arrWraith.forEach((wraith) => {
+  arrWraith.map((wraith) => {
     if (wraith.y >= 340) {
       if (arrWraith.length <= 10) {
-        arrWraith.forEach((wraith) => {
+        arrWraith.map((wraith) => {
           wraith.speed = -10;
           wraith.y -= 1;
           wraith.x -= 25;
         });
       } else if (arrWraith.length <= 15) {
-        arrWraith.forEach((wraith) => (wraith.speed = -5));
-      } else arrWraith.forEach((wraith) => (wraith.speed = -2));
+        arrWraith.map((wraith) => (wraith.speed = -5));
+      } else arrWraith.map((wraith) => (wraith.speed = -2));
     } else if (wraith.y <= 10) {
       if (arrWraith.length <= 10) {
-        arrWraith.forEach((wraith) => {
+        arrWraith.map((wraith) => {
           wraith.speed = 10;
           wraith.y += 1;
           wraith.x -= 25;
         });
       } else if (arrWraith.length <= 15) {
-        arrWraith.forEach((wraith) => (wraith.speed = 5));
-      } else arrWraith.forEach((wraith) => (wraith.speed = 2));
+        arrWraith.map((wraith) => (wraith.speed = 5));
+      } else arrWraith.map((wraith) => (wraith.speed = 2));
     }
   });
 }
