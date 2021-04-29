@@ -166,8 +166,15 @@ class Ray {
 
 // wraith blasts
 function wraithRay() {
+  if (arrWraith.length === 0 && player.alive) winner();
+  // not sure if this works etiher, trying to get error at 176 to stop piling up after game is over
   let random = Math.floor(Math.random() * 20);
-  if (Math.random() > 0.9 && arrWraith[random].alive) {
+  let blastFest = 0.9;
+  if (arrWraith.length === 10) {
+    blastFest = 0.5;
+    Ray.prototype.speed = 15; // ths doesn't work
+  }
+  if (Math.random() > blastFest && arrWraith[random].alive) {
     arrWraith[random].fire();
   }
 }
@@ -183,7 +190,7 @@ function hitWraith() {
         arrBlasts[j].x + 25 > arrWraith[i].x &&
         arrBlasts[j].x < arrWraith[i].x + wraith.width
       ) {
-        arrWraith[i].alive = false; // possibly delete
+        arrWraith[i].alive = false;
         arrWraith.splice(i, 1);
         arrBlasts.splice(j, 1);
         points += 50;
