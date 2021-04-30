@@ -1,4 +1,4 @@
-// DOM-related globals
+// DOM and gameplay-related globals
 const movementDisplay = document.getElementById("movement");
 const game = document.getElementById("game");
 const shipImage = document.getElementById("shipImage");
@@ -11,7 +11,6 @@ const instructions = document.getElementById("instructions");
 let gameState = document.getElementById("game-state");
 const hasta = document.getElementById("hasta");
 const bleeds = document.getElementById("bleeds");
-const hell = document.getElementById("hell");
 const last = document.getElementById("last");
 const scream = document.getElementById("scream");
 const row = 4;
@@ -27,7 +26,6 @@ let arrBlasts = [];
 let hastaToggle = true;
 let screamToggle = true;
 let bleedsToggle = true;
-let hellToggle = true;
 let lastToggle = true;
 
 // wraith globals
@@ -95,19 +93,13 @@ function shipBlasts(e) {
   }
 }
 
+// *********** SOUNDS ************
+// action!
 function arnie() {
   if (arrWraith.length === 19 && bleedsToggle) {
     bleeds.play();
     bleedsToggle = false;
   }
-  // if (arrWraith.length === 15 && hellToggle) {
-  //   hell.play();
-  //   hellToggle = false;
-  // }
-  // if (arrWraith.length === 10 && screamToggle) {
-  //   scream.play();
-  //   screamToggle = false;
-  // }
   if (arrWraith.length === 7 && lastToggle) {
     last.play();
     lastToggle = false;
@@ -180,7 +172,7 @@ function wraithMovement() {
   });
 }
 
-// wraith ray
+// wraith ray class
 class Ray {
   constructor(x, y, width, height) {
     this.x = x;
@@ -199,6 +191,7 @@ class Ray {
 function wraithRay() {
   let blastFest = 0.95;
   let randomWraith = Math.floor(Math.random() * 20);
+  //threshold to fire
   if (arrWraith.length <= 12 && arrWraith.length > 8) blastFest = 0.85;
   if (arrWraith.length <= 8) blastFest = 0.75;
   if (arrWraith.length <= 4) blastFest = 0.6;
@@ -274,8 +267,8 @@ function touchX() {
   }
 }
 
-// *********** ENDING AND RESETTING ************
-// game conditions
+// *********** WIN, LOSE, AND REDRAW ************
+// clear the board
 function clearCanvas() {
   ctx.clearRect(0, 0, game.width, game.height);
 }
@@ -285,8 +278,10 @@ function winner() {
     instructions.textContent = "You Won!";
     arrRay.length = 0;
     arrBlasts.length = 0;
-    if (hastaToggle) hasta.play();
-    hastaToggle = false;
+    if (hastaToggle) {
+      hasta.play();
+      hastaToggle = false;
+    }
     gameState.textContent === "Click to Begin!";
   }
 }
@@ -299,8 +294,8 @@ function loser() {
       screamToggle = false;
     }
     gameState.textContent = "Click to Reset";
-    clearInterval(runGame); // stops/freezes game
-    clearCanvas(); //clears screen
+    clearInterval(runGame);
+    clearCanvas();
   }
 }
 
@@ -311,6 +306,8 @@ function reset() {
   moreWraiths();
   screamToggle = true;
   hastaToggle = true;
+  bleedsToggle = true;
+  lastToggle = true;
   arrRay.length = 0;
   points = 0;
   score.textContent = "Score";
@@ -354,8 +351,8 @@ document.addEventListener("DOMContentLoaded", function () {
       gameState.textContent = "Click to Reset";
     } else if (gameState.textContent === "Click to Reset") {
       gameState.textContent = "Click to Begin!";
-      clearInterval(runGame); // stops/freezes game
-      clearCanvas(); //clears screen
+      clearInterval(runGame);
+      clearCanvas();
       reset();
     }
   });
