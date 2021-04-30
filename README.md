@@ -14,9 +14,9 @@ Oh no, the space wraiths are back!!! You must destroy them all in order to survi
 
 Move your ship up and down with the up and down arrows. Fire your blaster by pushing the space bar.
 
-## Start and Restart:
+## Start and Reset:
 
-Click in the lower right-hand corner of the screen ("Click to Begin!") to load the game and start playing. The text changes to "Click to Restart" during gameplay and after the game ends. Click to wipe the screen and click again to begin anew!
+Click in the lower right-hand corner of the screen ("Click to Begin!") to load the game and start playing. The text changes to "Click to Reset" during gameplay and after the game ends. Click to wipe the screen and click again to begin anew!
 
 ## Wraith Behavior
 

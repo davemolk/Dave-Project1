@@ -59,6 +59,11 @@
 - [x] What are your goals for today?
 - [x] Do you have any blockers?
 
-1. RESPONSE
-2. RESPONSE
-3. RESPONSE
+1. Got a working prototype
+2. Tweak the audio to make sure it complements the game flow.
+3. None
+
+# Additional Questions
+
+1. I have a better sense of how canvas works and how to structure functions in series (with conditions) to accomplish certain tasks.
+2. I'd like to spend more time on bootstrap (or other styling templates), but that's something I can work on on my own. Same for APIs, although I imagine we'll be doing lots with them in Unit 2. I need to spend more time reviewing inheritance, classes, factory functions, prototypes, and OOP generally, I guess. So much to learn and work on!
