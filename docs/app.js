@@ -96,19 +96,19 @@ function shipBlasts(e) {
 }
 
 function arnie() {
-  if (arrWraith.length === 19 && screamToggle) {
-    scream.play();
-    screamToggle = false;
-  }
-  if (arrWraith.length === 15 && bleedsToggle) {
+  if (arrWraith.length === 19 && bleedsToggle) {
     bleeds.play();
     bleedsToggle = false;
   }
-  if (arrWraith.length === 10 && hellToggle) {
-    hell.play();
-    hellToggle = false;
-  }
-  if (arrWraith.length === 5 && lastToggle) {
+  // if (arrWraith.length === 15 && hellToggle) {
+  //   hell.play();
+  //   hellToggle = false;
+  // }
+  // if (arrWraith.length === 10 && screamToggle) {
+  //   scream.play();
+  //   screamToggle = false;
+  // }
+  if (arrWraith.length === 7 && lastToggle) {
     last.play();
     lastToggle = false;
   }
@@ -294,6 +294,10 @@ function winner() {
 function loser() {
   if (player.alive === false) {
     arrWraith.length = 0;
+    if (screamToggle) {
+      scream.play();
+      screamToggle = false;
+    }
     gameState.textContent = "Click to Reset";
     clearInterval(runGame); // stops/freezes game
     clearCanvas(); //clears screen
@@ -305,6 +309,8 @@ function reset() {
   arrBlasts.length = 0;
   arrWraith.length = 0;
   moreWraiths();
+  screamToggle = true;
+  hastaToggle = true;
   arrRay.length = 0;
   points = 0;
   score.textContent = "Score";
